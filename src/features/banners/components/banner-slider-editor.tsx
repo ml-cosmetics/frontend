@@ -106,7 +106,7 @@ export function BannerSliderEditor() {
   const [order, setOrder] = React.useState<string[]>([]);
   const lastServerOrderRef = React.useRef<string[]>([]);
 
-  const items = listQuery.data ?? [];
+  const items = React.useMemo(() => listQuery.data ?? [], [listQuery.data]);
   const decorated = React.useMemo(
     () => items.map((banner) => ({ banner, status: getBannerStatus(banner) })),
     [items],
@@ -342,7 +342,7 @@ export function BannerSliderEditor() {
   }, [selected, orderedDirty]);
 
   const handleImageUploaded = React.useCallback(
-    async (objectKey: string, url: string) => {
+    async (objectKey: string, _url: string) => {
       // Image uploads commit immediately — they need their own
       // multipart round-trip and there's no good way to buffer the
       // new image_key locally. The sticky "Lưu tất cả" bar only
@@ -400,7 +400,6 @@ export function BannerSliderEditor() {
       <EditorToolbar
         search={search}
         onSearchChange={setSearch}
-        onAddNew={handleAddNew}
         onRefresh={() => listQuery.refetch()}
         isFetching={listQuery.isFetching}
       />
@@ -541,7 +540,6 @@ export function BannerSliderEditor() {
 interface EditorToolbarProps {
   search: string;
   onSearchChange: (next: string) => void;
-  onAddNew: () => void;
   onRefresh: () => void;
   isFetching: boolean;
 }
@@ -549,7 +547,6 @@ interface EditorToolbarProps {
 function EditorToolbar({
   search,
   onSearchChange,
-  onAddNew,
   onRefresh,
   isFetching,
 }: EditorToolbarProps) {
@@ -619,10 +616,11 @@ function HeroPreview({
   allBanners,
   currentIndex,
 }: HeroPreviewProps) {
+  const [imageFailed, setImageFailed] = React.useState(false);
+
   if (!banner) return null;
   const status = getBannerStatus(banner);
   const overlay = status.lifecycle === "expired" || status.lifecycle === "inactive";
-  const [imageFailed, setImageFailed] = React.useState(false);
   const src =
     banner.image_url && !imageFailed ? resolveImageUrl(banner.image_url) : null;
 
@@ -1159,7 +1157,7 @@ function ConfirmDeleteDialog({
     >
       <div className="w-full max-w-md rounded-2xl border border-hairline bg-card p-6 shadow-xl">
         <h3 className="text-[18px] font-semibold text-foreground">
-          Xoá banner "{banner.title}"?
+          Xoá banner &quot;{banner.title}&quot;?
         </h3>
         <p className="mt-2 text-[14px] text-muted-foreground">
           Banner sẽ bị xoá khỏi slider trang chủ. Hành động này không thể hoàn tác.

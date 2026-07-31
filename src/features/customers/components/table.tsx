@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import type { Table as TanStackTable } from "@tanstack/react-table";
 import { Loader2, Plus, Users } from "lucide-react";
@@ -129,10 +130,10 @@ export function CustomerListTable() {
         }
         actions={
           <Button asChild>
-            <a href="/admin/customers/new">
+            <Link href="/admin/customers/new">
               <Plus className="h-4 w-4" />
               <span>Thêm khách hàng</span>
-            </a>
+            </Link>
           </Button>
         }
       />
@@ -153,10 +154,10 @@ export function CustomerListTable() {
               }
               action={
                 <Button asChild>
-                  <a href="/admin/customers/new">
+                  <Link href="/admin/customers/new">
                     <Plus className="h-4 w-4" />
                     <span>Thêm khách hàng</span>
-                  </a>
+                  </Link>
                 </Button>
               }
             />

@@ -130,18 +130,6 @@ function Header({ onAdd }: { onAdd: () => void }) {
   );
 }
 
-function GhostBtn({ icon, label }: { icon: React.ReactNode; label: string }) {
-  return (
-    <button
-      type="button"
-      className="flex items-center gap-2 rounded-lg border border-rose-100 bg-transparent px-4 py-2 text-[13px] font-medium text-foreground transition-colors hover:bg-white"
-    >
-      {icon}
-      {label}
-    </button>
-  );
-}
-
 function PrimaryBtn({ icon, label, onClick }: { icon: React.ReactNode; label: string; onClick?: () => void }) {
   return (
     <Button onClick={onClick}>

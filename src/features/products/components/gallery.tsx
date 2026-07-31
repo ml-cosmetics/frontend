@@ -154,12 +154,13 @@ export function ProductImageGallery({
 
   // Revoke object URLs on unmount.
   React.useEffect(() => {
+    const controllers = abortControllersRef.current;
     return () => {
       for (const p of pendingUploads) URL.revokeObjectURL(p.previewUrl);
-      for (const controller of abortControllersRef.current.values()) {
+      for (const controller of controllers.values()) {
         controller.abort();
       }
-      abortControllersRef.current.clear();
+      controllers.clear();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -23,7 +23,7 @@ import { useCreateOrder } from "../hooks";
 import { cn } from "@/lib/utils/cn";
 import { formatVND, formatVNDNumber } from "@/lib/utils/money";
 import { queryKeys } from "@/lib/query";
-import type { CreateOrderInput, Customer, ID, ProductListItem } from "@/types";
+import type { CreateOrderInput, ID, ProductListItem } from "@/types";
 
 interface DraftItem {
   key: string;
