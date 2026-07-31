@@ -1,0 +1,705 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------- *
+ * Aura Vénus — Stitch design system, single source of truth.
+ * Tokens here are surfaced through Tailwind v4's `@theme` directive so
+ * utilities like `bg-background`, `text-foreground`, `border-input`,
+ * `text-display-lg`, `bg-surface`, `text-on-surface` resolve correctly.
+ *
+ * Palette, typography, spacing and radius come directly from the
+ * Aura Vénus design MD (Stitch project 29642013742130547). Every value
+ * below mirrors what is defined in Stitch — do not invent new values.
+ * ---------------------------------------------------------------- */
+
+@theme {
+  /* ---- Typography -------------------------------------------------- *
+   * Geist across all roles. Display and headline sizes match the
+   * Stitch design MD exactly; body uses a generous 1.6 line height so
+   * Vietnamese diacritics never clip.
+   * ----------------------------------------------------------------- */
+  --font-sans:
+    "Geist", "Inter", "Be Vietnam Pro", "Helvetica Neue", system-ui, sans-serif;
+  --font-mono:
+    "Geist Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Aura Vénus type scale — only the nine roles defined in the MD. */
+  --text-display-lg: 4rem; /* 64px */
+  --text-display-lg--line-height: 1.1;
+  --text-display-lg--letter-spacing: -0.04em;
+  --text-display-lg--font-weight: 700;
+
+  --text-display-sm: 3.5rem; /* 56px */
+  --text-display-sm--line-height: 1.1;
+  --text-display-sm--letter-spacing: -0.03em;
+  --text-display-sm--font-weight: 700;
+
+  --text-headline-lg: 2.5rem; /* 40px */
+  --text-headline-lg--line-height: 1.2;
+  --text-headline-lg--letter-spacing: -0.02em;
+  --text-headline-lg--font-weight: 600;
+
+  --text-headline-md: 2rem; /* 32px */
+  --text-headline-md--line-height: 1.3;
+  --text-headline-md--font-weight: 600;
+
+  --text-body-lg: 1.125rem; /* 18px */
+  --text-body-lg--line-height: 1.6;
+  --text-body-lg--font-weight: 400;
+
+  --text-body-md: 1rem; /* 16px */
+  --text-body-md--line-height: 1.6;
+  --text-body-md--font-weight: 400;
+
+  --text-label-md: 0.875rem; /* 14px */
+  --text-label-md--line-height: 1.4;
+  --text-label-md--letter-spacing: 0.02em;
+  --text-label-md--font-weight: 500;
+
+  /* Aura Vénus neutral palette (extracted from Stitch design MD). */
+  --color-surface: #fbf8fc;
+  --color-surface-dim: #dcd9dd;
+  --color-surface-bright: #fbf8fc;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f6f2f7;
+  --color-surface-container: #f0edf1;
+  --color-surface-container-high: #eae7eb;
+  --color-surface-container-highest: #e4e1e6;
+  --color-on-surface: #1b1b1e;
+  --color-on-surface-variant: #4a4455;
+  --color-inverse-surface: #303033;
+  --color-inverse-on-surface: #f3f0f4;
+  --color-outline: #7b7487;
+  --color-outline-variant: #ccc3d8;
+  --color-surface-tint: #e11d74;
+  --color-surface-variant: #e4e1e6;
+
+  /* Aura Rose brand primary — Stitch pink (#E11D74).
+   *
+   * Single source of truth: `bg-primary` / `text-primary` /
+   * `border-primary` resolve to the same pink on both the public
+   * storefront and the (admin) / (operator) surfaces. The two
+   * `:root.dark` blocks below intentionally keep this same `#e11d74`
+   * so the admin's "màu chủ đạo" matches the storefront. */
+  --color-primary: #e11d74;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #fce7f3;
+  --color-on-primary-container: #831843;
+  --color-inverse-primary: #be185d;
+
+  /* Aura Vénus secondary — muted slate. */
+  --color-secondary: #5d5d67;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #e3e1ed;
+  --color-on-secondary-container: #64636d;
+
+  /* Aura Vénus tertiary — warm clay (badges only). */
+  --color-tertiary: #7d3d00;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #a15100;
+  --color-on-tertiary-container: #ffe0cd;
+
+  /* Semantic status colours (Stitch error slot). */
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+
+  /* Aura Rose fixed variants (pink tinted). */
+  --color-primary-fixed: #fce7f3;
+  --color-primary-fixed-dim: #f9a8d4;
+  --color-on-primary-fixed: #500724;
+  --color-on-primary-fixed-variant: #9f1239;
+
+  --color-secondary-fixed: #e3e1ed;
+  --color-secondary-fixed-dim: #c7c5d1;
+  --color-on-secondary-fixed: #1a1b23;
+  --color-on-secondary-fixed-variant: #46464f;
+
+  --color-tertiary-fixed: #ffdcc6;
+  --color-tertiary-fixed-dim: #ffb784;
+  --color-on-tertiary-fixed: #301400;
+  --color-on-tertiary-fixed-variant: #713700;
+
+  /* Off-namespace aura-specific raw hexes (referenced in the Stitch MD
+   * but not declared in the named-colors list). Kept here so the
+   * design system stays a single source of truth. */
+  --color-hairline: #e4e4e7; /* zinc-300 — 1px card/input borders */
+  --color-hairline-strong: #d4d4d8; /* zinc-300 alt — secondary button */
+  --color-chip-bg: #f5f3ff; /* violet-50 — chip background */
+  --color-ink-900: #18181b; /* zinc-900 — overrideNeutralColor */
+
+  /* shadcn-style semantic aliases — light defaults. */
+  --color-background: var(--color-surface);
+  --color-foreground: var(--color-on-surface);
+
+  --color-card: var(--color-surface-container-lowest);
+  --color-card-foreground: var(--color-on-surface);
+
+  --color-popover: var(--color-surface-container-lowest);
+  --color-popover-foreground: var(--color-on-surface);
+
+  --color-primary-foreground: var(--color-on-primary);
+
+  --color-muted: var(--color-surface-container);
+  --color-muted-foreground: var(--color-on-surface-variant);
+
+  --color-accent: var(--color-surface-container-high);
+  --color-accent-foreground: var(--color-on-surface);
+
+  --color-destructive: var(--color-error);
+  --color-destructive-foreground: var(--color-on-error);
+
+  --color-success: #15803d;
+  --color-success-foreground: #ffffff;
+  --color-success-bg: #ecfdf5;
+  --color-warning: var(--color-tertiary-container);
+  --color-warning-foreground: var(--color-on-tertiary-container);
+  --color-warning-bg: #fff7ed;
+
+  --color-border: var(--color-hairline);
+  --color-input: var(--color-hairline);
+  --color-ring: var(--color-primary-container);
+
+  /* ---- Radii ------------------------------------------------------- *
+   * Stitch specifies a rounded scale. The base radius is 8 px which
+   * matches the default shadcn `rounded-md`; the rest of the scale
+   * mirrors the design MD.
+   * ----------------------------------------------------------------- */
+  --radius-sm: 0.25rem; /* 4px  */
+  --radius-md: 0.5rem;  /* 8px  */
+  --radius-lg: 0.75rem; /* 12px */
+  --radius-xl: 1rem;    /* 16px */
+  --radius-2xl: 1.5rem; /* 24px */
+  --radius-full: 9999px;
+
+  /* Container widths (Aura Vénus desktop layout — fixed 1280px). */
+  --breakpoint-3xl: 1280px;
+}
+
+/* ---------------------------------------------------------------- *
+ * Dark theme — Aura Vénus dark counterpart. Tokens are surfaced by
+ * appending the `dark` class on the `<html>` element via next-themes.
+ * ---------------------------------------------------------------- */
+
+@layer base {
+  /* ---------------------------------------------------------------- *
+   * Admin (LuxeOps) dark theme — Monolith palette.
+   *
+   * The actual rendered admin screens in the Stitch project
+   * (project 29642013742130547) use the dark Monolith palette:
+   * true-black surface, `#A78BFA` pastel purple primary, Geist Mono
+   * for numerics. This block is the single source of truth for every
+   * admin token — it activates whenever the <html> element carries
+   * the `dark` class **AND** a `.admin-light` ancestor exists. The
+   * double selector ensures public storefronts never accidentally
+   * inherit Monolith dark tokens if a user previously toggled theme
+   * via the admin settings menu. The `(admin)` and `(operator)` shells
+   * both mount `ForceLightTheme`, which strips `dark` from <html>; in
+   * practice this `.admin-light.dark` block should rarely activate,
+   * but it remains for operators who explicitly opt in.
+   * ---------------------------------------------------------------- */
+  .admin-light.dark {
+    --color-background: #09090b;
+    --color-foreground: #fafafa;
+
+    --color-card: #18181b;
+    --color-card-foreground: #fafafa;
+
+    --color-popover: #18181b;
+    --color-popover-foreground: #fafafa;
+
+    --color-primary: #e11d74;
+    --color-primary-foreground: #ffffff;
+
+    --color-secondary: #c8c5ca;
+    --color-secondary-foreground: #09090b;
+
+    --color-muted: #1f1f23;
+    --color-muted-foreground: #cac4d4;
+
+    --color-accent: #1f1f23;
+    --color-accent-foreground: #fafafa;
+
+    --color-destructive: #ffb4ab;
+    --color-destructive-foreground: #690005;
+
+    --color-success: #34d399;
+    --color-success-foreground: #052e1a;
+    --color-success-bg: rgba(16, 185, 129, 0.1);
+    --color-warning: #fbbf24;
+    --color-warning-foreground: #451a03;
+    --color-warning-bg: rgba(245, 158, 11, 0.1);
+
+    --color-border: #27272a;
+    --color-input: #27272a;
+    --color-ring: #a78bfa;
+
+    /* Monolith surfaces — Vercel-style true-black stack. */
+    --color-monolith-surface: #12131a;
+    --color-monolith-surface-variant: #33343c;
+    --color-monolith-surface-container-low: #1a1b22;
+    --color-monolith-surface-container: #1e1f26;
+    --color-monolith-surface-container-high: #292931;
+    --color-monolith-on-surface: #e3e1ec;
+    --color-monolith-on-surface-variant: #cac4d4;
+    --color-monolith-outline: #948e9d;
+    --color-monolith-outline-variant: #494552;
+    --color-monolith-surface-tint: #cebdff;
+    --color-monolith-primary: #cebdff;
+    --color-monolith-primary-fixed: #e8ddff;
+    --color-monolith-tertiary: #dbc839;
+  }
+
+  /* Tailwind v4 reads CSS variables as `bg-background` etc. */
+  * {
+    border-color: var(--color-border);
+  }
+
+  html,
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Visible focus ring across the app (accessibility). */
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+
+  /* Smooth theme transitions. */
+  html.theme-transition,
+  html.theme-transition * {
+    transition:
+      background-color 150ms ease,
+      color 150ms ease,
+      border-color 150ms ease;
+  }
+}
+
+/* ---------------------------------------------------------------- *
+ * Aura Rose admin background — same gradient as the public storefront
+ * (`PublicShell`). Reused by the `(admin)` and `(operator)` route
+ * groups so the control plane feels like the same brand.
+ * ---------------------------------------------------------------- */
+@utility aura-admin-bg {
+  background-image: linear-gradient(
+    to bottom right,
+    #fff1f7 0%,
+    #fce7f3 50%,
+    #fdf2f7 100%
+  );
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@utility aura-card {
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-hairline);
+  border-radius: 1rem;
+  box-shadow:
+    0 10px 15px -3px rgba(225, 29, 116, 0.06),
+    0 4px 6px -2px rgba(225, 29, 116, 0.04);
+}
+
+/* ---------------------------------------------------------------- *
+ * Container utility — fixed-width boutique container (1280 px on
+ * desktop, fluid below the 768 px breakpoint). Matches Aura Vénus
+ * design MD exactly.
+ * ---------------------------------------------------------------- */
+
+@utility container {
+  margin-inline: auto;
+  padding-inline: 1rem;
+  max-width: 80rem;
+}
+
+@utility aura-container {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 1280px;
+  padding-inline: 1rem;
+}
+
+@utility section-spacing {
+  margin-block: 4rem;
+}
+
+@layer components {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+
+  /* Aura Vénus 12px outline (Button / Input / Card radius). */
+  .aura-radius {
+    border-radius: var(--radius-md);
+  }
+
+  /* Aura Vénus hairline border — always 1 px, never 2 px. */
+  .aura-hairline {
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--color-hairline);
+  }
+
+  /* Aura Vénus ambient shadow (Level 2 hover/active). */
+  .aura-shadow-sm {
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.04),
+      0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  }
+
+  /* Glassmorphism overlay (modals/dialogs). */
+  .aura-glass {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* Aura Vénus page padding (top + side) — 64 px desktop, 24 px mobile. */
+  .aura-page {
+    padding-inline: 1.5rem;
+    padding-block: 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .aura-page {
+      padding-inline: 4rem;
+      padding-block: 2.5rem;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------- *
+ * Light admin/operator surface.
+ * Legacy admin screens still contain a few Monolith utility classes;
+ * these scoped aliases keep their layout while giving them the same
+ * light surfaces, borders, and text contrast as the public storefront.
+ * Brackets inside the attribute selector value are escaped with a
+ * backslash (\[ and \]) so CSS parsers don't trip on the Tailwind
+ * arbitrary-value syntax `bg-[#xxxxxx]`.
+ * ---------------------------------------------------------------- */
+.admin-light [class~="bg-\[#09090b\]"],
+.admin-light [class~="bg-\[#09090b\]/40"],
+.admin-light [class~="bg-\[#09090b\]/50"] {
+  background-color: var(--color-surface) !important;
+}
+
+.admin-light [class~="bg-\[#0d0e15\]"],
+.admin-light [class~="bg-\[#12131a\]"],
+.admin-light [class~="bg-\[#121215\]"] {
+  background-color: var(--color-surface-container-low) !important;
+}
+
+.admin-light [class~="bg-\[#18181b\]"],
+.admin-light [class~="bg-\[#1a1b22\]"] {
+  background-color: var(--color-surface-container-lowest) !important;
+}
+
+.admin-light [class~="bg-\[#1a1b23\]"],
+.admin-light [class~="bg-\[#1c1c1f\]"],
+.admin-light [class~="bg-\[#1e1f26\]"],
+.admin-light [class~="bg-\[#1f1f23\]"],
+.admin-light [class~="bg-\[#222226\]"],
+.admin-light [class~="bg-\[#292931\]"] {
+  background-color: var(--color-surface-container) !important;
+}
+
+.admin-light [class~="bg-\[#27272a\]"],
+.admin-light [class~="bg-\[#3f3f46\]"] {
+  background-color: var(--color-surface-container-high) !important;
+}
+
+.admin-light [class~="text-\[#fafafa\]"],
+.admin-light [class~="text-\[#e3e1ec\]"],
+.admin-light [class~="text-\[#e4e4e7\]"] {
+  color: var(--color-foreground) !important;
+}
+
+.admin-light [class~="text-\[#a1a1aa\]"],
+.admin-light [class~="text-\[#cac4d4\]"],
+.admin-light [class~="text-\[#71717a\]"],
+.admin-light [class~="text-\[#52525b\]"] {
+  color: var(--color-muted-foreground) !important;
+}
+
+.admin-light [class~="border-\[#27272a\]"],
+.admin-light [class~="border-\[#33343c\]"],
+.admin-light [class~="border-\[#494552\]"],
+.admin-light [class~="border-\[#3f3f46\]"] {
+  border-color: var(--color-hairline) !important;
+}
+
+.admin-light [class~="divide-\[#27272a\]"] > :not(:last-child),
+.admin-light [class~="divide-\[#33343c\]"] > :not(:last-child) {
+  border-color: var(--color-hairline) !important;
+}
+
+.admin-light [class~="hover\\:bg-\[#18181b\]"]:hover,
+.admin-light [class~="hover\\:bg-\[#1c1c1f\]"]:hover,
+.admin-light [class~="hover\\:bg-\[#1e1f26\]"]:hover,
+.admin-light [class~="hover\\:bg-\[#1f1f23\]"]:hover,
+.admin-light [class~="hover\\:bg-\[#222226\]"]:hover,
+.admin-light [class~="hover\\:bg-\[#27272a\]"]:hover {
+  background-color: var(--color-surface-container-low) !important;
+}
+
+.admin-light [class~="hover\\:text-\[#fafafa\]"]:hover,
+.admin-light [class~="hover\\:text-\[#e3e1ec\]"]:hover,
+.admin-light [class~="group-hover\\:text-\[#fafafa\]"]:hover,
+.admin-light [class~="group-hover\\:text-\[#e3e1ec\]"]:hover {
+  color: var(--color-foreground) !important;
+}
+
+.admin-light [class~="text-\[#09090b\]"] {
+  color: var(--color-foreground) !important;
+}
+
+.admin-light [class~="bg-\[#e11d74\]"] {
+  background-color: var(--color-primary) !important;
+}
+
+/* Primary CTA pill: pink fill + white label. */
+.admin-light [class~="bg-primary"][class~="text-\[#09090b\]"],
+.admin-light [class~="bg-primary"][class~="text-\[#381385\]"] {
+  color: var(--color-primary-foreground) !important;
+}
+
+/* Table headers and rows. */
+.admin-light thead [class~="bg-\[#0d0e15\]"],
+.admin-light thead [class~="bg-\[#121215\]"],
+.admin-light thead [class~="bg-\[#1a1b22\]"] {
+  background-color: var(--color-surface-container-low) !important;
+  color: var(--color-muted-foreground) !important;
+}
+
+.admin-light tbody [class~="border-\[#27272a\]"],
+.admin-light tbody [class~="border-\[#33343c\]"] {
+  border-color: var(--color-hairline) !important;
+}
+
+/* Status chip backgrounds (dark) → light tinted surfaces. */
+.admin-light [class~="bg-emerald-900\\/30"],
+.admin-light [class~="bg-emerald-900\\/10"],
+.admin-light [class~="bg-red-900\\/30"],
+.admin-light [class~="bg-red-900\\/10"],
+.admin-light [class~="bg-yellow-900\\/30"],
+.admin-light [class~="bg-yellow-900\\/10"],
+.admin-light [class~="bg-amber-900\\/30"],
+.admin-light [class~="bg-amber-900\\/10"],
+.admin-light [class~="bg-orange-900\\/30"],
+.admin-light [class~="bg-orange-900\\/10"],
+.admin-light [class~="bg-violet-900\\/30"],
+.admin-light [class~="bg-violet-900\\/10"],
+.admin-light [class~="bg-pink-900\\/30"],
+.admin-light [class~="bg-pink-900\\/10"],
+.admin-light [class~="bg-red-950\\/40"] {
+  background-color: var(--color-surface-container-low) !important;
+}
+
+.admin-light [class~="text-emerald-400"] {
+  color: #15803d !important;
+}
+.admin-light [class~="text-yellow-400"] {
+  color: #a16207 !important;
+}
+.admin-light [class~="text-red-400"],
+.admin-light [class~="text-\[#f87171\]"],
+.admin-light [class~="text-\[#ffb4ab\]"] {
+  color: #b91c1c !important;
+}
+
+/* Tailwind rose-300/pink-300/etc accent text on dark chip → darker accent on light chip. */
+.admin-light [class~="text-rose-300"],
+.admin-light [class~="text-pink-300"],
+.admin-light [class~="text-fuchsia-300"] {
+  color: #be185d !important;
+}
+.admin-light [class~="text-amber-300"],
+.admin-light [class~="text-yellow-300"] {
+  color: #a16207 !important;
+}
+.admin-light [class~="text-emerald-300"],
+.admin-light [class~="text-green-300"] {
+  color: #15803d !important;
+}
+.admin-light [class~="text-sky-300"],
+.admin-light [class~="text-blue-300"] {
+  color: #1d4ed8 !important;
+}
+
+.admin-light [class~="border-emerald-800"],
+.admin-light [class~="border-red-800"],
+.admin-light [class~="border-yellow-800"],
+.admin-light [class~="border-emerald-900"],
+.admin-light [class~="border-red-900"],
+.admin-light [class~="border-amber-900"],
+.admin-light [class~="border-orange-900"],
+.admin-light [class~="border-violet-900"],
+.admin-light [class~="border-pink-900"] {
+  border-color: var(--color-hairline) !important;
+}
+
+/* Dark zinc-900 backgrounds (rare admin chrome) → white. */
+.admin-light [class~="bg-zinc-900"],
+.admin-light [class~="bg-neutral-900"] {
+  background-color: var(--color-surface-container-lowest) !important;
+}
+
+/* Placeholder text inside remapped input surfaces. */
+.admin-light [class~="placeholder\\:text-\[#a1a1aa\]"]::placeholder,
+.admin-light [class~="placeholder\\:text-\[#71717a\]"]::placeholder,
+.admin-light [class~="placeholder\\:text-\[#e3e1ec\]"]::placeholder {
+  color: var(--color-muted-foreground) !important;
+  opacity: 1;
+}
+
+/* ---------------------------------------------------------------- *
+ * Marquee — infinite horizontal loop for the announcement strip.
+ *
+ * The track is rendered twice (Stitch pattern) so we can translate
+ * it by exactly half its width, then snap back to translateX(0)
+ * without a visible jump. When `prefers-reduced-motion` is on the
+ * animation is paused so the user can read the message instead.
+ * ---------------------------------------------------------------- */
+@theme {
+  --animate-marquee: marquee 30s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: var(--animate-marquee);
+  width: max-content;
+}
+
+/* Hero gift-badge: pops in once on page load (luxury-friendly —
+ * draws attention briefly, then settles). Combined with the
+ * static `rotate-6` on the element so the final transform is
+ * stable. */
+@keyframes badge-pop {
+  0% {
+    transform: rotate(6deg) scale(0.6);
+    opacity: 0;
+  }
+  60% {
+    transform: rotate(8deg) scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(6deg) scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-badge-pop {
+  animation: badge-pop 1.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1 both;
+}
+
+/* Image lightbox fade-in — used by the product detail page. */
+@keyframes lightbox-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-lightbox-fade-in {
+  animation: lightbox-fade-in 180ms ease-out 1 both;
+}
+
+/* CTA button shine — used by the product detail page so the primary
+ * "Tư vấn Zalo" + outline "Mua nhanh Messenger" buttons get a
+ * noticeable hover sweep that matches a luxury storefront aesthetic. */
+@keyframes btn-shine-sweep {
+  from {
+    transform: translateX(-120%) skewX(-12deg);
+  }
+  to {
+    transform: translateX(220%) skewX(-12deg);
+  }
+}
+
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.btn-shimmer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.32) 45%,
+    rgba(255, 255, 255, 0.45) 55%,
+    transparent 100%
+  );
+  transform: translateX(-120%) skewX(-12deg);
+  opacity: 0;
+  transition: opacity 250ms ease;
+  z-index: 1;
+}
+
+.btn-shimmer:hover::before {
+  opacity: 1;
+  animation: btn-shine-sweep 900ms cubic-bezier(0.4, 0, 0.2, 1) 1 both;
+}
+
+/* ---------------------------------------------------------------- *
+ * Products pagination animations
+ * ---------------------------------------------------------------- */
+
+@keyframes slide-up-fade {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.animate-slide-up-fade {
+  animation: slide-up-fade 280ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.animate-fade-in {
+  animation: fade-in 200ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-slide-up-fade,
+  .animate-fade-in {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+}

@@ -1,0 +1,1 @@
+export { permissionsApi } from "@/lib/api/permissions";
